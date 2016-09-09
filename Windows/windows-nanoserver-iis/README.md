@@ -86,3 +86,65 @@ You should see output simlar to the following:
     ---> a1d94d0841f4
     Removing intermediate container 3c6907e3c973
     Successfully built a1d94d0841f4
+
+# Run
+
+To fire it up try the following from an elevated Powershell session:
+
+    docker run -it jpvantuyl/windows-nanoserver-iis
+
+You should see the following output:
+
+    Reply from ::1: time<1ms
+    Reply from ::1: time=1ms
+    Reply from ::1: time<1ms
+    Reply from ::1: time<1ms
+    Reply from ::1: time<1ms
+    Reply from ::1: time<1ms
+    Reply from ::1: time<1ms
+    Reply from ::1: time<1ms
+    Reply from ::1: time<1ms
+    ...
+
+To load up web pages from your host you'll need the IP of your new container.  Execute the following command in Powershell to get it:
+
+    docker network inspect nat
+
+You should see output like:
+
+    [
+        {
+            "Name": "nat",
+            "Id": "57226c812352371d5bb6dd72a13fd3b2c782b398ed9731bacf63b39997f208c1",
+            "Scope": "local",
+            "Driver": "nat",
+            "EnableIPv6": false,
+            "IPAM": {
+                "Driver": "default",
+                "Options": null,
+                "Config": [
+                    {
+                        "Subnet": "172.16.0.0/12",
+                        "Gateway": "172.16.0.1"
+                    }
+                ]
+            },
+            "Internal": false,
+            "Containers": {
+                "255f9721194d42053d45e0078157825bdafe5463db6ebe0c07743b14a1f41659": {
+                    "Name": "boring_hawking",
+                    "EndpointID": "baf11fc07f0757af4cb0af99c3ce60a33f34ccb44799da8b4a620119d3812046",
+                    "MacAddress": "00:15:5d:cb:00:45",
+                    "IPv4Address": "172.31.192.253/16",
+                    "IPv6Address": ""
+                }
+            },
+            "Options": {
+                "com.docker.network.windowsshim.hnsid": "5b12a8ca-ca12-4d94-9216-a2461d4e4077",
+                "com.docker.network.windowsshim.networkname": "nat"
+            },
+            "Labels": {}
+        }
+    ]
+
+Then you can dump the `IPv4Address` in your favorite browser.
